@@ -23,7 +23,6 @@
 
 #include "dynamic.h"
 #include <kj/debug.h>
-#include <capnp/stream.capnp.h>
 
 namespace capnp {
 
@@ -64,7 +63,7 @@ Capability::Server::DispatchCallResult DynamicCapability::Server::dispatchCall(
       return {
         call(method, CallContext<DynamicStruct, DynamicStruct>(*context.hook,
             method.getParamType(), resultType)),
-        resultType == Schema::from<StreamResult>()
+        resultType.isStreamResult()
       };
     } else {
       return internalUnimplemented(
